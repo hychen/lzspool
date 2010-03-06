@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+su -c "git config --global color.branch auto" $REAL_USER
+su -c "git config --global color.diff auto" $REAL_USER
+su -c "git config --global color.status auto" $REAL_USER

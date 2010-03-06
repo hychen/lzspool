@@ -1,0 +1,4 @@
+#pkg install list
+deluge-torrent
+amule
+vuze

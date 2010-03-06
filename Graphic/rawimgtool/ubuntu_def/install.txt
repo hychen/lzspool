@@ -1,0 +1,3 @@
+#pkg install list
+ufraw
+rawstudio

@@ -1,2 +1,0 @@
-#pkg install list
-kxmame

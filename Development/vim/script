@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+import commands
+import os
+import re
+
+def install_vimana():
+  getcmd = "wget http://kalug.linux.org.tw/~hychen/downloads/vimana-test-2010-all.deb -O /tmp/vimana.deb"
+  os.system(getcmd)
+  os.system("sudo dpkg -i /tmp/vimana.deb")
+
+def install_plugin(plugin, user):
+  cmd = "su -c 'vimana install %s' %s" % (plugin, user)
+  os.system(cmd)
+
+def installed_plugin(plugin, user):
+  cmd = "su -c 'vimana installed %s' %s" % (plugin, user)
+  res = commands.getoutput(cmd)
+  if re.match('.*not installed', res):
+    return False
+  return True
+
+##FIXME: put it to lazyscripts
+f = open('/tmp/lzs_root/lzs_storagedenv','r')
+lines = f.readlines()
+user = lines[1][17:].strip()
+
+#@FIXME:put it to upstream
+install_vimana()
+
+# install vim plugins
+#--------------------
+print "installing vim plugins..."
+
+with open('datas/plugins.list','r') as f:
+  plugins = f.read().strip().split('\n')
+
+for plugin in plugins:
+  if not installed_plugin(plugin,user):
+    install_plugin(plugin,user)
+
+# install usful tools.
+#---------------------
+
+# ydict - a yahoo dict with consol user interface.
+os.system("./install_ydict")
+
+# install vimrc example.
+# if example newer than user's, copy to it!
+print "done!"

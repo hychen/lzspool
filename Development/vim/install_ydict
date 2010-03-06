@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# ydict - from http://fourdollars.blogspot.com/search?q=ydict
+source $LIB_ROOT/shlib.bash
+${WGET} http://fd.idv.tw/tux/ydict -O /tmp/ydict
+install -m 0755 /tmp/ydict /usr/local/bin

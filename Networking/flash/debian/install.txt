@@ -1,2 +1,0 @@
-flashplayer-mozilla
-libflashsupport

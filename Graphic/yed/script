@@ -15,7 +15,7 @@ def exit_script(msg):
 
 host = 'http://www.yworks.com'
 dwurl = host+'/en/products_download.php'
-prams = {'file':'yEd3_2_0_1.sh',
+prams = {'file':'yEd-3.4.1.sh',
 		'task':'accept',
 		'agree':'true'}
 
@@ -47,5 +47,6 @@ if not os.path.isfile(path):
     os.system("/usr/bin/env wget -c %s -O %s" % (host+real_dwurl,path))
 
 print 'run installer'
+
 os.system('bash '+path)
 

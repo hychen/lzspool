@@ -1,3 +1,0 @@
-#pkg install list
-pcsx
-pcsx-i18n

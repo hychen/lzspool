@@ -1,0 +1,4 @@
+#pkg install list
+vim-full
+exuberant-ctags
+devhelp

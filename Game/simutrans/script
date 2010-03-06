@@ -16,6 +16,7 @@
 # @ubuntu
 # @debian
 # @platform 'i386 amd64'
+source $LIB_ROOT/shlib.bash
 
 mkdir -p temp/simutrans
 pushd temp/simutrans

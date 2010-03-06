@@ -1,0 +1,431 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" Lazy Vim Configure file.
+"
+"  Come to join and make it more powerful with VIM
+"
+" Maintanier: Hsin Yi Chen (hychen) <ossug.hychen@gmail.com>
+" Thanks:
+"       Amix <http://amix.dk/vim/vimrc.html>
+"       c9s <http://c9s.blogspot.com/search/label/Vim>
+"       Bart <http://www.jukie.net/~bart/blog/20061007151802>
+"       Fourdallars <http://fourdollars.blogspot.com/>
+"       Kanru <http://github.com/kanru/myconfig/>
+"       Piao Tech<http://piao-tech.blogspot.com/search/label/Vim>
+"       Nion <http://nion.modprobe.de/setup/vimrc>
+"
+" Howto:
+"     vimana: An easy way to install VIM plugins.
+"
+"        root@host$ capn vimana
+"
+"     ,help :use this to get hotkey description in normal mode.
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""
+" General Abbrevs
+""""""""""""""""""""""""""""""
+
+"Map abbr today to datetime e.x 2009/09/06/ 02:49:17
+iab today <c-r>=strftime("%Y/%m/%d %H:%M:%S")<cr>
+
+"Map abbr myname to your name. (need setting)
+iab myname Hsin Yi Chen (hychen)
+iab mymail <ossug.hychen@gmail.com>
+
+""""""""""""""""""""""""""""""
+" General
+""""""""""""""""""""""""""""""
+let changelog_username = 'Hsin Yi Chen (hychen) <ossug.hychen@gmail.com>'
+
+"Use xdg-open to opens a file or URL in the user¡¦s preferred application
+let g:browser = "xdg-open"
+
+"Get out of VI's compatible mode..
+set nocompatible
+
+"All custom macros start with ,
+let maplocalleader=','
+
+"Enable syntax hightlight
+syntax on
+
+"Set to auto read when a file is changed from the outside
+set autoread
+
+"Show briefly matching bracket when closing it.
+set showmatch
+
+"Key:F6 Highlight search things Enable/Disable
+set hlsearch
+nmap <F6> :set hls!<BAR>set hls?<CR>
+
+"No sound on errors.
+set noerrorbells
+set novisualbell
+set t_vb=
+
+"Make no backups
+set nobackup
+
+"Modelines is 3 hight
+"set modelines 3
+
+"Always read last position.
+au BufReadPost * if line("'\"") > 0|if line("'\"")
+\ <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+
+"Remove trailing whitespace when writing a buffer, but not for diff
+"files. From: Vigil
+function! RemoveTrailingWhitespace()
+    if &ft != "diff"
+        let b:curcol = col(".")
+        let b:curline = line(".")
+        silent! %s/\s\+$//
+        silent! %s/\(\s*\n\)\+\%$//
+        call cursor(b:curline, b:curcol)
+    endif
+endfunction
+autocmd BufWritePre * call RemoveTrailingWhitespace()
+
+"Display underline on the line under cursor
+set cul
+"Display underline in Insert mode, hide in normal mode
+au InsertEnter * set nocul
+au InsertLeave * set cul
+
+"Key:Ctrl+Z Use shell
+map <C-Z> :shell
+
+"Key:; Fast switch command mode, use ; insted :
+nnoremap ; :
+
+"Key:,w Fast saving
+nmap <localleader>w :w!<cr>
+
+"Key:,q Fast leaving without save
+nmap <localleader>q :q!<cr>
+
+"Key:,z Fast leaving with save
+nmap <localleader>z :wq!<cr>
+
+"Key:,aq Fast leaving without save (all window)
+nmap <localleader>aq :qa!<cr>
+
+"Key:,reload Fast reloading .vimrc
+nmap <localleader>reload :source ~/.vimrc<cr>
+
+"Key:,help Get help of shorcut
+nmap <localleader>help :! grep ^\"Key ~/.vimrc<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Text options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Shift width is 2
+set expandtab
+set shiftwidth=2
+
+"Key:,t2 Set shift width = 2
+map <leader>t2 :set shiftwidth=2<cr>
+"Key:,t4 Set shift width = 4
+map <leader>t4 :set shiftwidth=4<cr>
+au FileType html,python,vim,javascript setl shiftwidth=2
+au FileType html,python,vim,javascript setl tabstop=2
+au FileType java setl shiftwidth=4
+au FileType java setl tabstop=4
+
+set smarttab
+set lbr
+set tw=500
+
+"Highlight trailing whitespace characters Vim Tip #1274
+set list
+set listchars=tab:->,trail:.
+
+"Key:F12 Enable/Disable checking in latex, bib and txt files
+function! SwitchSpellCheck()
+  let s:en_spell=0
+  if s:en_spell
+    let s:en_spell=0
+    execute "silent set nospell"
+  else
+    let s:en_spell=1
+    execute "silent setlocal spell"
+  endif
+endfunction
+map <F12> :call SwitchSpellCheck()<CR>
+"Key:[s jump to next bad word
+"Key:]s jump to prev bad word
+"Key:z= suggest word
+"Key:zg mark word as good (add to dictionary)
+"Key:zw mark word as bad  (remove from dictionary)
+
+""""""""""""""""""""""""""""""
+" Indent
+""""""""""""""""""""""""""""""
+"Auto indent
+set ai
+
+"Smart indet
+set si
+
+"C-style indeting
+set cindent
+
+"Wrap lines
+set wrap
+
+""""""""""""""""""""""""""""""
+" Filetype
+""""""""""""""""""""""""""""""
+
+"Set suffixes that get lower priority when doing tab completion for filenames.
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+
+"Favorite filetypes and encoding.
+set ffs=unix,dos,mac
+
+"Default encoding is utf8
+set encoding=utf-8
+set termencoding=utf-8
+set fileencodings=utf-8,big5,euc-jp,gbk,euc-kr,utf-bom,iso8859-1
+
+"Key:,big5 Convert fileto big5
+nmap <localleader>big5 :set fileencoding=big5<CR>
+
+"Key:,utf8 Convert file to utf8
+nmap <localleader>utf8 :set fileencoding=utf8<CR>
+
+"Key:,fd Convert current file to dos formate
+nmap <localleader>fd :se ff=dos<cr>
+
+"Key:,fu Convert current file to unix formate
+nmap <localleader>fu :se ff=unix<cr>
+
+""""""""""""""""""""""""""""""
+" User Interface
+""""""""""""""""""""""""""""""
+
+"Turn on WiLd menu
+set wildmenu
+
+"Always show current position
+set ruler
+
+"Key:F4 Show line number Enable/Disable
+nmap <F4> :set nu!<BAR>set nu?<CR>
+set nu
+
+"The commandbar is 2 high
+set cmdheight=2
+
+  """"""""""""""""""""""""""""""
+  " Statusline
+  """"""""""""""""""""""""""""""
+  "Always hide the statusline
+  set laststatus=2
+
+  "Format the statusline
+  set statusline=\ %F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l/%L:%c
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Moving around and tabs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Map space to / and c-space to ?
+"Key:Space as /, foward search
+"Key:Shift+Space as ?, backward search
+map <space> /
+map <c-space> ?
+
+"Smart way to move btw. windows
+"Key:Ctrl+j move to bottom window
+"Key:Ctrl+k move to up window
+"Key:Ctrl+h move to right window
+"Key:Ctrl+l move to left window
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+"Tab configuration
+"Key:,tn New tab
+"Key:,te Edit tab
+"Key:,tc Close tab
+"Key:,tm Move tab
+map <localleader>tn :tabnew %<cr>
+map <localleader>te :tabedit
+map <localleader>tc :tabclose<cr>
+map <localleader>tm :tabmove
+try
+  set switchbuf=usetab
+  set stal=2
+catch
+endtry
+
+"Fast shift
+"Key:Tab left shift
+"Key:Shift-Tab right shift
+nmap <tab> V>
+nmap <s-tab> V<
+xmap <tab> >gv
+xmap <s-tab> <gv
+
+""""""""""""""""""""""""""""""
+" Visual
+""""""""""""""""""""""""""""""
+" From an idea by Michael Naumann
+function! VisualSearch(direction) range
+  let l:saved_reg = @"
+  execute "normal! vgvy"
+  let l:pattern = escape(@", '\\/.*$^~[]')
+  let l:pattern = substitute(l:pattern, "\n$", "", "")
+  if a:direction == 'b'
+    execute "normal ?" . l:pattern . "^M"
+  else
+    execute "normal /" . l:pattern . "^M"
+  endif
+  let @/ = l:pattern
+  let @" = l:saved_reg
+endfunction
+
+"Basically you press * or # to search for the current selection !! Really useful
+vnoremap <silent> * :call VisualSearch('f')<CR>
+vnoremap <silent> # :call VisualSearch('b')<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Misc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Key:,m Remove the Windows ^M
+noremap <localleader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+"Super paste
+inoremap <C-v> <esc>:set paste<cr>mui<C-R>+<esc>mv'uV'v=:set nopaste<cr>
+
+"Fast modify in equation Ex.(a=b)
+"Key:cr modify left statment
+"Key:cl modify right statment
+if &ft == 'python'
+nmap cr=    $F=lc$
+else
+nmap cr=    $F=lcf;
+endif
+nmap cl=    $F=hc^
+
+
+"Enable inserts links & anchors on a TOhtml export automatic.
+" Notice:
+" Syntax used is:
+" Link
+" Anchor
+function! SmartTOHtml()
+   TOhtml
+   try
+    %s/&quot;\s\+\*&gt; \(.\+\)</" <a href="#\1" style="color: cyan">\1<\/a></g
+    %s/&quot;\(-\|\s\)\+\*&gt; \(.\+\)</" \&nbsp;\&nbsp; <a href="#\2" style="color: cyan;">\2<\/a></g
+    %s/&quot;\s\+=&gt; \(.\+\)</" <a name="\1" style="color: #fff">\1<\/a></g
+   catch
+   endtry
+   exe ":write!"
+   exe ":bd"
+endfunction
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" External Application
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Key:,hex View file in hex mode
+nmap <localleader>hex :%!xxd<cr>
+
+"Key:,y Search the word under cursor in Yahoo dictionary
+"From:fourdollars.blogspot.com/2008/05/vim-ydict.html
+nmap <localleader>y viwy:!ydict <C-R>"<CR>
+
+"Key:,d Search the word under cursor in devhelp
+nmap <localleader>d viwy:!devhelp -s <C-R>"<CR>
+
+"Key:,p Search the word under cursor in pydoc
+nmap <localleader>p viwy:!pydoc <C-R>"<CR>
+
+function! SearchInGoogle(_mode)
+    let s:wordUnderCursor = expand("<cword>")
+    if a:_mode == 'code'
+        let s:query = 'codesearch?q='
+        if &ft == "cpp" || &ft == "c" || &ft == "ruby" || &ft == "php" ||
+           &ft == "python" || &ft == "java"|| &ft == 'sh' || &ft == 'perl'
+                let s:lang_q = "+lang:".&ft
+        endif
+    else
+        let s:query = 'search?q='
+    endif
+
+    let s:url = "http://www.google.com/".s:query.s:wordUnderCursor
+    let s:cmd = "silent !" . g:browser . " " . s:url ."&"
+    execute  s:cmd
+    redraw!
+endfunction
+
+"Key:,c Search the word under cursor in Google Code Search.
+map <localleader>c :call SearchInGoogle('code')<CR>
+
+"Key:,g Search the word under cursor in Google Search
+map <localleader>g :call SearchInGoogle()<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Source Explore
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:SrcExpl_pluginList = [
+         \ "__Tag_List__",
+           \ "_NERD_tree_",
+           \ "Source_Explorer"]
+"Key:F4 Toggle SrxExpl
+nmap <F4> :SrcExplToggle<CR>
+
+"Key:F12 key for updating the tags file artificially
+let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
+let g:SrcExpl_updateTagsKey = "<F12>"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Nerd Tree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Key:F3 ToggleeNerd Tree
+" ?       see help
+" o       open selected file, or expand selected dir
+" go      open selected file, but leave cursor in the nerdtree
+" t       open selected node in a new tab
+" t       same as 't' but keep the focus on the current tab
+" <tab>   open selected file in a split window
+" g<tab>  same as <tab>, but leave the cursor on the nerdtree
+" !       execute the current file
+" o       recursively open the selected directory
+" x       close the current nodes parent
+" x       recursively close all children of the current node
+" e       open a netrw for the current dir
+map <F3> :NERDTreeToggle<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ctags <From:Fourdallars>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set tags=./tags,./TAGS,tags,TAGS,~/.tags
+let Tlist_WinWidth = 50
+
+"Kye:F2 Show taglist
+nnoremap <silent> <F2> :TlistToggle<CR>
+
+"Key:Ctrl+F9 Create Ctag of current file.
+nmap <C-F9> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+"Key:g+ View in new tab
+nmap g+ viwy:tab ts <C-R>"<CR>
+"Key:g- View in new tab
+nmap g- viwy:pts <C-R>"<CR>
+"Key:g= View in new stack
+nmap g= viwy:sts <C-R>"<CR>
+"Key:g+ View in new tab
+nmap g<Bar> viwy:vsplit<CR>:ts <C-R>"<CR>

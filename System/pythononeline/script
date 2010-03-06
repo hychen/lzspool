@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+source $LIB_ROOT/shlib.bash
+
+mkdir -p /tmp/lpython
+cd /tmp/lpython
+$WGET http://kalug.linux.org.tw/~lloyd/download/python/lpython.py.gz
+gunzip lpython.py.gz
+mv lpython.py lpython
+install -m 755 lpython /usr/local/bin

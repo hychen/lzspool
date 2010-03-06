@@ -1,0 +1,5 @@
+#pkg install list
+k3b
+k9copy
+gmountiso
+isomaster
