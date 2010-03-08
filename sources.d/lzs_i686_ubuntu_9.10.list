@@ -15,6 +15,9 @@ deb http://dl.google.com/linux/deb/ stable main
 deb http://ppa.launchpad.net/globalmenu-team/ppa/ubuntu karmic main
 #deb-src http://ppa.launchpad.net/globalmenu-team/ppa/ubuntu karmic main
 
+## Ubuntu Tweak
+deb http://ppa.launchpad.net/tualatrix/ubuntu karmic main
+
 ## Skype
 deb http://download.skype.com/linux/repos/debian/ stable non-free
 
