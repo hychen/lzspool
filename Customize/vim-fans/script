@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-echo 'set -o vi # use vi mode.' > $REAL_HOME/.bashrc
+echo 'set -o vi # use vi mode.' >> $REAL_HOME/.bashrc
 
 su -c "git config --global core.editor vim" $REAL_USER
