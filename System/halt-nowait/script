@@ -1,1 +1,2 @@
-# write your own script here.
+#!/usr/bin/env bash
+su -c "gconftool-2 --type bool -s /apps/indicator-session/suppress_logout_restart_shutdown true" $REAL_USER
