@@ -6,7 +6,7 @@ import re
 def install_vimana():
   getcmd = "wget http://kalug.linux.org.tw/~hychen/downloads/vimana-test-2010-all.deb -O /tmp/vimana.deb"
   os.system(getcmd)
-  os.system("sudo dpkg -i /tmp/vimana.deb")
+  os.system("sudo lzs-debinstall /tmp/vimana.deb")
 
 def install_plugin(plugin, user):
   cmd = "su -c 'vimana install %s' %s" % (plugin, user)
