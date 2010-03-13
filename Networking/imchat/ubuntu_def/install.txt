@@ -1,3 +1,0 @@
-#pkg install list
-pidgin
-pidgin-extprefs
